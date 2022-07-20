@@ -1,0 +1,282 @@
+ ! NOAA/PMEL TMAP
+ ! FERRET v6.93  
+ ! Linux 2.6.32-504.el6.x86_64 64-bit - 11/13/14
+ ! 26-Oct-17 18:00   
+!###################SAGAR#################  
+set win 1
+set win/aspect=0.75
+can da/all;can var/all
+use SAGAR_TIDE_YEARLY_MAX_MIN_RANGE.nc
+
+let P=T[g=TIDE_YEARLY_MAX]
+let Q= TIDE_YEARLY_MAX 
+go regresst
+ppl axset 0 0 1 0
+!######### Mean of Maximum Water Height ################### 
+
+let detrend_MHW=missing(Q-qhat, 0)
+!save/file=DETREND_MHW_yearly_CHENNAI_MAX.dat/clobber/format=(f9.3)/no detrend_MHW
+let max_m2ay=0.0254; let max_m2py=`140.4653-90`
+let U1=max_m2ay*cos((2*3.143*T[gt=TIDE_YEARLY_MAX]/(18.61))-(max_m2py*3.143/180))
+let max_m2as=0.0161; let max_m2ps=`-11.5457-90`
+let U2=max_m2as*cos((2*3.143*T[gt=TIDE_YEARLY_MAX]/(8.85))-(max_m2ps*3.143/180))
+let UP=U1+U2
+
+let TOTAL_NODAL=UP+qhat
+define viewport/x=0:0.4/y=.6:1 v1
+set viewport v1
+plot/sym=27/line=1/no  Q
+plot/ov/no/col=black TOTAL_NODAL
+plot/ov/no/dash/col=black qhat
+lab 31428.76,1.773417,-1,0,0.18 (`slope*1000,p=2`mm/y)
+lab -43895.71,1.729676,0,90,0.18,MHW w.r.t MSL(m)
+lab 140230.8,1.793224,0,0,0.2 SAGAR
+
+
+
+!######### Mean of Minimum Water Height ###################     
+
+can da/all;can var/all
+use SAGAR_TIDE_YEARLY_MAX_MIN_RANGE.nc
+
+let P=T[g=TIDE_YEARLY_MIN]
+let Q=TIDE_YEARLY_MIN
+go regresst
+
+
+let detrend_MHW=missing(TIDE_YEARLY_MIN-qhat, 0)
+!save/file=DETREND_MHW_yearly_CHENNAI_MIN.dat/clobber/format=(f9.3)/no detrend_MHW
+let min_m2ay=0.0266; let min_m2py=`-45.6310-90`
+let U1=min_m2ay*cos((2*3.141*T[gt=TIDE_YEARLY_MIN]/(18.61))-(min_m2py*3.141/180))
+let min_m2as=0.0132; let min_m2ps=`139.5052-90`
+let U2=min_m2as*cos((2*3.141*T[gt=TIDE_YEARLY_MAX]/(8.85))-(min_m2ps*3.141/180))
+let UP=U1+U2
+
+ 
+
+
+let TOTAL_NODAL=UP+qhat
+define viewport/x=0:0.4/y=0.38:0.78 v2
+set viewport v2
+!plot/sym=27/ylimits=-0.415:-0.39:.0025/line=1  TIDE_YEARLY_MIN
+plot/sym=27/line=1/no  TIDE_YEARLY_MIN
+plot/ov/no/col=black TOTAL_NODAL
+plot/ov/no/dash/col=black qhat
+lab -43895.71,-1.591943,0,90,0.18 MLW w.r.t MSL(m)
+lab 31428.76,-1.544736,-1,0,0.18 (`slope*1000,p=4`mm/y)
+
+
+!######### Range of Water Height ###################
+can da/all;can var/all
+use SAGAR_TIDE_YEARLY_MAX_MIN_RANGE.nc
+
+let P=T[g=TIDE_YEARLY_RANGE]
+let Q=TIDE_YEARLY_RANGE
+go regresst
+
+let detrend_MWL=missing(TIDE_YEARLY_RANGE-qhat, 0)
+!save/file=DETREND_MWL_yearly_CHENNAI_RANGE.dat/clobber/format=(f9.3)/no detrend_MWL
+let range_m2ay=0.0518; let range_m2py=`137.2779-90`
+let U1=range_m2ay*cos((2*3.141*T[gt=TIDE_YEARLY_RANGE]/(18.61))-(range_m2py*3.141/180))
+let range_m2as=0.0284; let range_m2ps=`-24.5769-90`
+let U2=range_m2as*cos((2*3.141*T[gt=TIDE_YEARLY_RANGE]/(8.85))-(range_m2ps*3.141/180))
+let UP=U1+U2
+
+
+ppl axset 0 1 1 0
+
+let TOTAL_NODAL=U1+qhat
+define viewport/x=0:0.4/y=.14:0.56 v3
+set viewport v3
+plot/sym=27/line=1/no  TIDE_YEARLY_RANGE !/ylimits=-0.415:-0.39:.0025
+plot/ov/no/col=black TOTAL_NODAL
+plot/ov/no/dash/col=black qhat
+lab -43895.71,3.316520,0,90,0.18 MTR w.r.t MSL(m)
+lab 31428.76,3.410022,-1,0,0.18 (`slope*1000,p=4`mm/y)
+
+
+
+
+!##################DIAMONDHARBOUR####################
+
+can da/all;can var/all
+use DIAMONDHARBOUR_TIDE_YEARLY_MAX_MIN_RANGE.nc
+
+let P=T[g=TIDE_YEARLY_MAX]
+let Q= TIDE_YEARLY_MAX 
+go regresst
+ppl axset 0 0 1 0
+!######### Mean of Maximum Water Height ################### 
+
+let detrend_MHW=missing(Q-qhat, 0)
+!save/file=DETREND_MHW_yearly_CHENNAI_MAX.dat/clobber/format=(f9.3)/no detrend_MHW
+let max_m2ay=0.0226; let max_m2py=`-165.1743-172`        
+let U1=max_m2ay*cos((2*3.141*T[gt=TIDE_YEARLY_MAX]/(18.61))-(max_m2py*3.143/180))
+let max_m2as=0.0238; let max_m2ps=`-45.8371-172`
+let U2=max_m2as*cos((2*3.141*T[gt=TIDE_YEARLY_MAX]/(8.85))-(max_m2ps*3.143/180))
+let UP=U1+U2
+
+let TOTAL_NODAL=UP+qhat
+define viewport/x=0.32:0.72/y=.6:1 v4
+set viewport v4
+plot/sym=27/line=1/no  Q
+plot/ov/no/col=black TOTAL_NODAL
+plot/ov/no/dash/col=black qhat
+lab 32735.76,2.065182,-1,0,0.18 (`slope*1000,p=4`mm/y)
+lab 258530.6,2.104796,0,0,0.2 DIAMONDHARBOUR
+
+!######### Mean of Minimum Water Height ###################     
+
+can da/all;can var/all
+use DIAMONDHARBOUR_TIDE_YEARLY_MAX_MIN_RANGE.nc
+
+let P=T[g=TIDE_YEARLY_MIN]
+let Q=TIDE_YEARLY_MIN
+go regresst
+
+
+let detrend_MHW=missing(TIDE_YEARLY_MIN-qhat, 0)
+!save/file=DETREND_MHW_yearly_CHENNAI_MIN.dat/clobber/format=(f9.3)/no detrend_MHW
+let min_m2ay=0.0295; let min_m2py=`21.2276-172`
+let U1=min_m2ay*cos((2*3.141*T[gt=TIDE_YEARLY_MIN]/(18.61))-(min_m2py*3.141/180))
+let min_m2as=0.0243; let min_m2ps=`120.2664-172`
+let U2=min_m2as*cos((2*3.141*T[gt=TIDE_YEARLY_MAX]/(8.85))-(min_m2ps*3.141/180))
+let UP=U1+U2
+
+ 
+
+
+let TOTAL_NODAL=UP+qhat
+define viewport/x=0.32:0.72/y=0.38:0.78 v5
+set viewport v5
+!plot/sym=27/ylimits=-0.415:-0.39:.0025/line=1  TIDE_YEARLY_MIN
+plot/sym=27/line=1/no  TIDE_YEARLY_MIN
+plot/ov/no/col=black TOTAL_NODAL
+plot/ov/no/dash/col=black qhat
+lab 32735.76,-1.866265,-1,0,0.18 (`slope*1000,p=4`mm/y)
+
+
+!######### Range of Water Height ###################
+can da/all;can var/all
+use DIAMONDHARBOUR_TIDE_YEARLY_MAX_MIN_RANGE.nc
+
+let P=T[g=TIDE_YEARLY_RANGE]
+let Q=TIDE_YEARLY_RANGE
+go regresst
+
+let detrend_MWL=missing(TIDE_YEARLY_RANGE-qhat, 0)
+!save/file=DETREND_MWL_yearly_CHENNAI_RANGE.dat/clobber/format=(f9.3)/no detrend_MWL
+let range_m2ay=0.0544; let range_m2py=`-155.2683-172`
+let U1=range_m2ay*cos((2*3.141*T[gt=TIDE_YEARLY_RANGE]/(18.61))-(range_m2py*3.141/180))
+let range_m2as=0.0475; let range_m2ps=`-58.7382-172`
+let U2=range_m2as*cos((2*3.141*T[gt=TIDE_YEARLY_RANGE]/(8.85))-(range_m2ps*3.141/180))
+let UP=U1+U2
+
+ppl axset 0 1 1 0
+
+let TOTAL_NODAL=U1+qhat
+define viewport/x=0.32:0.72/y=.14:0.56 v6
+set viewport v6
+plot/sym=27/line=1/no  TIDE_YEARLY_RANGE !/ylimits=-0.415:-0.39:.0025
+plot/ov/no/col=black TOTAL_NODAL
+plot/ov/no/dash/col=black qhat
+lab 32735.76,4.085178,-1,0,0.18 (`slope*1000,p=4`mm/y)
+
+
+
+
+
+!@@@@@@@@@@@@@@@@@@@@GARDENREACH@@@@@@@@@@@@@@@@@@@@
+
+can da/all;can var/all
+use GARDENREACH_TIDE_YEARLY_MAX_MIN_RANGE.nc
+
+let P=T[g=TIDE_YEARLY_MAX]
+let Q= TIDE_YEARLY_MAX 
+go regresst
+ppl axset 0 0 1 0
+!######### Mean of Maximum Water Height ################### 
+
+
+let detrend_MHW=missing(Q-qhat, 0)
+!save/file=DETREND_MHW_yearly_CHENNAI_MAX.dat/clobber/format=(f9.3)/no detrend_MHW
+let max_m2ay=0.0123; let max_m2py=`161.5650-120`
+let U1=max_m2ay*cos((2*3.141*T[gt=TIDE_YEARLY_MAX]/(18.61))-(max_m2py*3.143/180))
+let max_m2as=0.0184; let max_m2ps=`-33.2762-120`
+let U2=max_m2as*cos((2*3.141*T[gt=TIDE_YEARLY_MAX]/(8.85))-(max_m2ps*3.143/180))
+let UP=U1+U2
+
+
+let TOTAL_NODAL=UP+qhat
+define viewport/x=0.64:1/y=.6:1 v7
+set viewport v7
+!plot/sym=27/ylimits=0.41:0.425:.0025/line=1  TIDE_YEARLY_MAX
+plot/sym=27/line=1/no  Q
+plot/ov/no/col=black TOTAL_NODAL
+plot/ov/no/dash/col=black qhat
+lab 28070.83,1.712976,-1,0,0.18 (`slope*1000,p=4`mm/y)
+lab 246837.7,1.738199,0,0,0.2 GARDENREACH
+
+
+!######### Mean of Minimum Water Height ###################     
+
+can da/all;can var/all
+use GARDENREACH_TIDE_YEARLY_MAX_MIN_RANGE.nc
+
+let P=T[g=TIDE_YEARLY_MIN]
+let Q=TIDE_YEARLY_MIN
+go regresst
+
+
+
+let detrend_MHW=missing(TIDE_YEARLY_MIN-qhat, 0)
+!save/file=DETREND_MHW_yearly_CHENNAI_MIN.dat/clobber/format=(f9.3)/no detrend_MHW
+let min_m2ay=0.0215; let min_m2py=`-39.7756-120`
+let U1=min_m2ay*cos((2*3.141*T[gt=TIDE_YEARLY_MIN]/(18.61))-(min_m2py*3.141/180))
+let min_m2as=0.0278; let min_m2ps=`149.6533-120`
+let U2=min_m2as*cos((2*3.141*T[gt=TIDE_YEARLY_MAX]/(8.85))-(min_m2ps*3.141/180))
+let UP=U1+U2
+
+
+let TOTAL_NODAL=UP+qhat
+define viewport/x=0.64:1/y=0.38:0.78 v8
+set viewport v8
+!plot/sym=27/ylimits=-0.415:-0.39:.0025/line=1  TIDE_YEARLY_MIN
+plot/sym=27/line=1/no  TIDE_YEARLY_MIN
+plot/ov/no/col=black TOTAL_NODAL
+plot/ov/no/dash/col=black qhat
+lab 28070.83,-1.527202,-1,0,0.18 (`slope*1000,p=4`mm/y)
+
+
+!######### Range of Water Height ###################
+ppl axset 0 1 1 0
+can da/all;can var/all
+use GARDENREACH_TIDE_YEARLY_MAX_MIN_RANGE.nc
+
+let P=T[g=TIDE_YEARLY_RANGE]
+let Q=TIDE_YEARLY_RANGE
+go regresst
+
+
+let detrend_MWL=missing(TIDE_YEARLY_RANGE-qhat, 0)
+!save/file=DETREND_MWL_yearly_CHENNAI_RANGE.dat/clobber/format=(f9.3)/no detrend_MWL
+let range_m2ay=0.0334; let range_m2py=`147.8750-120`
+let U1=range_m2ay*cos((2*3.141*T[gt=TIDE_YEARLY_RANGE]/(18.61))-(range_m2py*3.141/180))
+let range_m2as=0.0462; let range_m2ps=`-31.5663-120`
+let U2=range_m2as*cos((2*3.141*T[gt=TIDE_YEARLY_RANGE]/(8.85))-(range_m2ps*3.141/180))
+let UP=U1+U2
+
+
+let TOTAL_NODAL=U1+qhat
+define viewport/x=0.64:1/y=.14:0.56 v9
+set viewport v9
+plot/sym=27/line=1/no  TIDE_YEARLY_RANGE !/ylimits=-0.415:-0.39:.0025
+plot/ov/no/col=black TOTAL_NODAL
+plot/ov/no/dash/col=black qhat
+lab 28070.83,3.436004,-1,0,0.18 (`slope*1000,p=4`mm/y)
+
+frame/file=06_NODAL_PERIGEE_SAG_DIA_GR_FIGURE_6_PART4.gif
+
+q
+
+
